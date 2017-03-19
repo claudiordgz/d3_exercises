@@ -1,0 +1,43 @@
+<!doctype html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+  <style>
+    .boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    height: 98vh;
+    width: 98vw;
+    }
+    .svg-demo {
+    width: 500px;
+    height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class="boxes">
+  <svg class="svg-demo">
+  </svg>
+  </div>
+  <script type="text/javascript">
+    var yScale = d3.scaleLinear().domain([0,100,500]).range([0,250,500]).clamp(true)
+    var data = [14,68,24500,430,19,1000,5555]
+    
+    d3.select("svg")
+    .selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("x", (d, i) => (500 / data.length) * i)
+    .attr("width", 500 / data.length)
+    .attr("height", d => yScale(d))
+    .attr("y", d => 500 - yScale(d))
+    .style("fill", "#FF9E9D")
+    .style("stroke", "#3FB8AF")
+    .style("stroke-width", "5px")
+  </script>
+</body>
+</html>

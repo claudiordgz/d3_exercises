@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v4.min.js"></script> 
+    <style>
+      .some-div {
+        width: 500px;
+        height: 500px;
+        border: 1px lightgray solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="infovizDiv">
+      <svg class="some-div">
+	<path d="M 10,60 40,30 50,50 60,30 70,80"
+	      style="fill:none;stroke:gray;stroke-width:4px;"
+	      transform="translate(0,0)" />
+	<path d="M 10,60 40,30 50,50 60,30 70,80"
+	      style="fill:back;stroke:gray;stroke-width:4px;"
+	      transform="translate(0,100)" />
+	<path d="M 10,60 40,30 50,50 60,30 70,80Z"
+	      style="fill:none;stroke:gray;stroke-width:4px;"
+	      transform="translate(0,200)" />
+	<path d="M 10,60 40,30 50,50 60,30 70,80Z"
+	      style="fill:back;stroke:gray;stroke-width:4px;"
+	      transform="translate(0,300)" />
+      </svg>
+    </div>
+  </body>
+</html>

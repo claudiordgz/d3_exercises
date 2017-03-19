@@ -1,0 +1,66 @@
+<!doctype html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js"></script>
+  <style>
+    .boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    height: 98vh;
+    width: 98vw;
+    }
+    .svg-demo {
+    width: 900px;
+    height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div class="boxes">
+  <svg class="svg-demo">
+  </svg>
+  </div>
+  <script type="text/javascript">
+    function processData(data) {
+    data.forEach(d => {
+    d.impact = d.favorites.length + d.retweets.length
+    d.tweetTime = new Date(d.timestamp)
+    })
+
+    var maxImpact = d3.max(data, d => d.impact)
+    var startEnd = d3.extent(data, d => d.tweetTime)
+    var timeRamp = d3.scaleTime().domain(startEnd).range([20, 890])
+    var yScale = d3.scaleLinear().domain([0, maxImpact]).range([0,460])
+    var radiusScale = d3.scaleLinear().domain([0, maxImpact]).range([1,20]);
+    var colorScale = d3.scaleLinear().domain([0, maxImpact]).range(["#CFF09E", "#0B486B"])
+
+    var tweetG = d3.select("svg")
+    .selectAll("g")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("transform", d => "translate(" + timeRamp(d.tweetTime) + "," + (480 - yScale(d.impact)) + ")")
+
+    tweetG.append("circle")
+    .attr("r", d => radiusScale(d.impact))
+    .style("fill", d => colorScale(d.impact))
+    .style("stroke", "lightgrey" )
+    .style("stroke-width", "2px")
+
+    tweetG.append("text").text(d => d.user + "-" + d.tweetTime.getHours())
+
+    var filteredData = data.filter(d => d.impact > 0)
+    d3.selectAll("circle")
+    .data(filteredData, d=> JSON.stringify(d))
+    .exit()
+    .remove()
+    }
+    
+    d3.json("../data/tweets.json", (error, data) => processData(data.tweets)) 
+    
+    
+  </script>
+</body>
+</html>

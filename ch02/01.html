@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+      .city__table {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: sans-serif;
+      }
+      .city {
+      width: 80%;
+      margin: 0 10% 0 10%;
+      line-height: 3rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      }
+      .city__name {
+      flex: 1 100%;
+      }
+      .pink-clr {
+      background-color: hsl(340, 100%, 90%);
+      }
+      .green-clr {
+      background-color: hsl(160, 39%, 86%);
+      }
+      
+      .city__population {
+      flex: 1 100%;
+      text-align: end;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="city__table"></div>
+    <script>
+      function dataViz(incomingData) {
+        var el = d3.select(".city__table").selectAll("div.city")
+          .data(incomingData)
+          .enter()
+      .append("div")
+      .attr("class","city")
+      el.append("span").attr("class", "city__name pink-clr").html(d => d.label)
+      el.append("span").attr("class", "city__population green-clr").html(d => d.population);
+      }
+
+      d3.csv("../data/cities.csv", data => {dataViz(data)});
+    </script>
+  </body>
+</html>
